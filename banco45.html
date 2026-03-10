@@ -8,34 +8,94 @@
 </head>
 <body class="banco-page">
   <header class="banco-nav">
-    <a href="index.html" class="banco-nav-home">← Início</a>
+    <a href="index.html" class="banco-nav-home" aria-label="Voltar ao início">← Início</a>
     <span class="banco-nav-title">Dados Eleitorais do Brasil</span>
     <span class="banco-nav-period">1945 – 1962</span>
   </header>
   <div class="banco-layout">
-    <aside class="banco-sidebar">
+    <aside class="banco-sidebar" aria-label="Navegação das seções">
       <nav>
         <ul>
-          <li><a href="#" onclick="loadPage('4762/banco1945/ini.html'); return false;" class="active" id="nav-ini">Apresentação</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/presidente.html'); return false;" id="nav-pres">Presidente da República</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/vice-pres.html'); return false;" id="nav-vpres">Vice-Presidente</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/camara.html'); return false;" id="nav-cam">Câmara dos Deputados</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/assembleias.html'); return false;" id="nav-ass">Assembléias</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/governador.html'); return false;" id="nav-gov">Governadores</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/vice-gov.html'); return false;" id="nav-vgov">Vice-Governadores</a></li>
-          <li><a href="#" onclick="loadPage('4762/banco1945/senador.html'); return false;" id="nav-sen">Senadores</a></li>
+          <li><a href="#ini"     data-url="4762/banco1945/ini.html"        aria-label="Apresentação" class="active">Apresentação</a></li>
+          <li><a href="#pres"    data-url="4762/banco1945/presidente.html"  aria-label="Presidente da República">Presidente da República</a></li>
+          <li><a href="#vpres"   data-url="4762/banco1945/vice-pres.html"   aria-label="Vice-Presidente">Vice-Presidente</a></li>
+          <li><a href="#cam"     data-url="4762/banco1945/camara.html"      aria-label="Câmara dos Deputados">Câmara dos Deputados</a></li>
+          <li><a href="#ass"     data-url="4762/banco1945/assembleias.html" aria-label="Assembléias Legislativas">Assembléias</a></li>
+          <li><a href="#gov"     data-url="4762/banco1945/governador.html"  aria-label="Governadores">Governadores</a></li>
+          <li><a href="#vgov"    data-url="4762/banco1945/vice-gov.html"    aria-label="Vice-Governadores">Vice-Governadores</a></li>
+          <li><a href="#sen"     data-url="4762/banco1945/senador.html"     aria-label="Senadores">Senadores</a></li>
         </ul>
       </nav>
     </aside>
     <div class="banco-main">
-      <iframe id="content-frame" src="4762/banco1945/ini.html" name="main"></iframe>
+      <iframe id="content-frame" title="Conteúdo dos dados eleitorais" name="main"></iframe>
     </div>
   </div>
   <script>
-    function loadPage(url) {
-      document.getElementById('content-frame').src = url;
-      document.querySelectorAll('.banco-sidebar nav a').forEach(a => a.classList.remove('active'));
+    const frame = document.getElementById('content-frame');
+    const links = document.querySelectorAll('.banco-sidebar nav a[data-url]');
+
+    const IFRAME_STYLE = `
+      <style>
+        body { font-family: Arial, sans-serif !important; font-size: 13px !important; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 4px 8px; }
+        .table-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      </style>
+    `;
+
+    function injectStyles() {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (doc && !doc.getElementById('__injected__')) {
+          const el = doc.createElement('div');
+          el.id = '__injected__';
+          el.innerHTML = IFRAME_STYLE;
+          doc.head.appendChild(el.firstElementChild);
+
+          doc.querySelectorAll('table').forEach(t => {
+            const wrap = doc.createElement('div');
+            wrap.className = 'table-scroll-wrap';
+            t.parentNode.insertBefore(wrap, t);
+            wrap.appendChild(t);
+          });
+        }
+      } catch(e) {}
     }
+
+    function setActive(link) {
+      links.forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+    }
+
+    function loadPage(url, pushState) {
+      const link = [...links].find(a => a.dataset.url === url);
+      if (link) setActive(link);
+      frame.src = url;
+      if (pushState && link) {
+        history.pushState(null, '', link.getAttribute('href'));
+      }
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        loadPage(link.dataset.url, true);
+      });
+    });
+
+    frame.addEventListener('load', injectStyles);
+
+    function init() {
+      const hash = location.hash;
+      const link = hash ? document.querySelector(`.banco-sidebar nav a[href="${hash}"]`) : links[0];
+      const target = link || links[0];
+      setActive(target);
+      frame.src = target.dataset.url;
+    }
+
+    window.addEventListener('popstate', init);
+    init();
   </script>
 </body>
 </html>

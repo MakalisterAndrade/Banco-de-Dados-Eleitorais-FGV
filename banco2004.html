@@ -8,36 +8,96 @@
 </head>
 <body class="banco-page">
   <header class="banco-nav">
-    <a href="index.html" class="banco-nav-home">← Início</a>
+    <a href="index.html" class="banco-nav-home" aria-label="Voltar ao início">← Início</a>
     <span class="banco-nav-title">Dados Eleitorais do Brasil</span>
     <span class="banco-nav-period">1982 – 2006</span>
   </header>
   <div class="banco-layout">
-    <aside class="banco-sidebar">
+    <aside class="banco-sidebar" aria-label="Navegação das seções">
       <nav>
         <ul>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/ini.html'); return false;" class="active">Apresentação</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/presidente.html'); return false;">Presidência da República</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/camara.html'); return false;">Câmara dos Deputados</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/senador.html'); return false;">Senado</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/governador.html'); return false;">Governos Estaduais</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/assembleias.html'); return false;">Assembléias Legislativas</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/municipais.html'); return false;">Municipais — Prefeituras</a></li>
-          <li><a href="#" onclick="loadPage('jairo2006/port/pags/municipaisc.html'); return false;">Municipais — Câmaras</a></li>
-          <li><a href="jairo2006/port/pags/lista.htm" target="_blank">Partidos brasileiros</a></li>
-          <li><a href="jairo2006/port/pags/participacao.htm" target="_blank">Partidos participantes (1992–2006)</a></li>
+          <li><a href="#ini"    data-url="jairo2006/port/pags/ini.html"           aria-label="Apresentação" class="active">Apresentação</a></li>
+          <li><a href="#pres"   data-url="jairo2006/port/pags/presidente.html"    aria-label="Presidência da República">Presidência da República</a></li>
+          <li><a href="#cam"    data-url="jairo2006/port/pags/camara.html"        aria-label="Câmara dos Deputados">Câmara dos Deputados</a></li>
+          <li><a href="#sen"    data-url="jairo2006/port/pags/senador.html"       aria-label="Senado">Senado</a></li>
+          <li><a href="#gov"    data-url="jairo2006/port/pags/governador.html"   aria-label="Governos Estaduais">Governos Estaduais</a></li>
+          <li><a href="#ass"    data-url="jairo2006/port/pags/assembleias.html"  aria-label="Assembléias Legislativas">Assembléias Legislativas</a></li>
+          <li><a href="#mun"    data-url="jairo2006/port/pags/municipais.html"   aria-label="Municipais — Prefeituras">Municipais — Prefeituras</a></li>
+          <li><a href="#munc"   data-url="jairo2006/port/pags/municipaisc.html"  aria-label="Municipais — Câmaras">Municipais — Câmaras</a></li>
+          <li><a href="jairo2006/port/pags/lista.htm" target="_blank" rel="noopener" aria-label="Partidos brasileiros (abre em nova aba)">Partidos brasileiros ↗</a></li>
+          <li><a href="jairo2006/port/pags/participacao.htm" target="_blank" rel="noopener" aria-label="Partidos participantes 1992–2006 (abre em nova aba)">Partidos participantes (1992–2006) ↗</a></li>
         </ul>
       </nav>
     </aside>
     <div class="banco-main">
-      <iframe id="content-frame" src="jairo2006/port/pags/ini.html" name="main"></iframe>
+      <iframe id="content-frame" title="Conteúdo dos dados eleitorais" name="main"></iframe>
     </div>
   </div>
   <script>
-    function loadPage(url) {
-      document.getElementById('content-frame').src = url;
-      document.querySelectorAll('.banco-sidebar nav a').forEach(a => a.classList.remove('active'));
+    const frame = document.getElementById('content-frame');
+    const links = document.querySelectorAll('.banco-sidebar nav a[data-url]');
+
+    const IFRAME_STYLE = `
+      <style>
+        body { font-family: Arial, sans-serif !important; font-size: 13px !important; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 4px 8px; }
+        .table-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      </style>
+    `;
+
+    function injectStyles() {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (doc && !doc.getElementById('__injected__')) {
+          const el = doc.createElement('div');
+          el.id = '__injected__';
+          el.innerHTML = IFRAME_STYLE;
+          doc.head.appendChild(el.firstElementChild);
+
+          doc.querySelectorAll('table').forEach(t => {
+            const wrap = doc.createElement('div');
+            wrap.className = 'table-scroll-wrap';
+            t.parentNode.insertBefore(wrap, t);
+            wrap.appendChild(t);
+          });
+        }
+      } catch(e) {}
     }
+
+    function setActive(link) {
+      links.forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+    }
+
+    function loadPage(url, pushState) {
+      const link = [...links].find(a => a.dataset.url === url);
+      if (link) setActive(link);
+      frame.src = url;
+      if (pushState && link) {
+        history.pushState(null, '', link.getAttribute('href'));
+      }
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        loadPage(link.dataset.url, true);
+      });
+    });
+
+    frame.addEventListener('load', injectStyles);
+
+    function init() {
+      const hash = location.hash;
+      const link = hash ? document.querySelector(`.banco-sidebar nav a[href="${hash}"]`) : links[0];
+      const target = link || links[0];
+      setActive(target);
+      frame.src = target.dataset.url;
+    }
+
+    window.addEventListener('popstate', init);
+    init();
   </script>
 </body>
 </html>
