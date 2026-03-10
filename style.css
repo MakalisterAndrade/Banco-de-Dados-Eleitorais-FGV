@@ -252,6 +252,26 @@ body {
   font-weight: 700;
   color: var(--white);
 }
+.banco-nav-copy {
+  background: transparent;
+  border: none;
+  color: #93c5fd;
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.12s, background 0.12s;
+}
+.banco-nav-copy svg { width: 1.15rem; height: 1.15rem; }
+.banco-nav-copy:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.1);
+}
+.banco-nav-copy.copied {
+  color: #4ade80;
+}
 .banco-nav-period {
   margin-left: auto;
   background: var(--accent);
@@ -269,17 +289,57 @@ body {
 }
 
 .banco-sidebar {
-  width: 220px;
-  min-width: 180px;
+  width: 240px;
+  min-width: 200px;
   background: var(--white);
   border-right: 1px solid var(--border);
-  padding: 1rem 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 }
+
+.sidebar-search {
+  position: relative;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.sidebar-search input {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: var(--white);
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.sidebar-search input:focus {
+  outline: none;
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(37, 99, 168, 0.1);
+}
+.sidebar-search .search-icon {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.banco-sidebar nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
 .banco-sidebar nav ul {
   list-style: none;
+}
+.banco-sidebar nav ul li {
+  transition: opacity 0.15s;
 }
 .banco-sidebar nav ul li a {
   display: block;
@@ -312,6 +372,7 @@ body {
   overflow: auto;
   background: var(--bg);
   min-width: 0;
+  position: relative;
 }
 .banco-main iframe {
   width: 100%;
@@ -319,6 +380,32 @@ body {
   min-height: calc(100vh - 52px);
   border: none;
   display: block;
+}
+
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  z-index: 10;
+}
+.loading-indicator .spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid var(--border);
+  border-top-color: var(--blue-mid);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ── Mobile ── */
@@ -336,15 +423,20 @@ body {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    padding: 0.5rem 0;
     overflow-y: visible;
     overflow-x: auto;
+  }
+  .sidebar-search { padding: 0.75rem 1rem; }
+  .banco-sidebar nav {
+    overflow-y: visible;
+    overflow-x: auto;
+    padding: 0;
   }
   .banco-sidebar nav ul {
     display: flex;
     flex-wrap: nowrap;
     gap: 0;
-    padding: 0 0.5rem;
+    padding: 0.5rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -362,5 +454,6 @@ body {
     border-bottom-color: var(--blue-mid);
     background: var(--blue-light);
   }
-  .banco-main iframe { min-height: calc(100vh - 130px); }
+  .banco-main iframe { min-height: calc(100vh - 180px); }
 }
+

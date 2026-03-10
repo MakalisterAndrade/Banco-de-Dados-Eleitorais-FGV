@@ -10,12 +10,25 @@
   <header class="banco-nav">
     <a href="index.html" class="banco-nav-home" aria-label="Voltar ao início">← Início</a>
     <span class="banco-nav-title">Dados Eleitorais do Brasil</span>
+    <button class="banco-nav-copy" id="copy-link-btn" aria-label="Copiar link desta seção" title="Copiar link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+    </button>
     <span class="banco-nav-period">1945 – 1962</span>
   </header>
   <div class="banco-layout">
     <aside class="banco-sidebar" aria-label="Navegação das seções">
+      <div class="sidebar-search">
+        <input type="text" id="search-input" placeholder="Buscar seção..." aria-label="Buscar seção">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </div>
       <nav>
-        <ul>
+        <ul id="nav-list">
           <li><a href="#ini"     data-url="4762/banco1945/ini.html"        aria-label="Apresentação" class="active">Apresentação</a></li>
           <li><a href="#pres"    data-url="4762/banco1945/presidente.html"  aria-label="Presidente da República">Presidente da República</a></li>
           <li><a href="#vpres"   data-url="4762/banco1945/vice-pres.html"   aria-label="Vice-Presidente">Vice-Presidente</a></li>
@@ -28,21 +41,60 @@
       </nav>
     </aside>
     <div class="banco-main">
+      <div class="loading-indicator" id="loading" aria-live="polite" aria-busy="true">
+        <div class="spinner"></div>
+        <span>Carregando...</span>
+      </div>
       <iframe id="content-frame" title="Conteúdo dos dados eleitorais" name="main"></iframe>
     </div>
   </div>
   <script>
     const frame = document.getElementById('content-frame');
     const links = document.querySelectorAll('.banco-sidebar nav a[data-url]');
+    const searchInput = document.getElementById('search-input');
+    const navList = document.getElementById('nav-list');
+    const loadingIndicator = document.getElementById('loading');
+    const copyBtn = document.getElementById('copy-link-btn');
+    const STORAGE_KEY = 'banco45_last_section';
 
     const IFRAME_STYLE = `
       <style>
-        body { font-family: Arial, sans-serif !important; font-size: 13px !important; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { padding: 4px 8px; }
-        .table-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          padding: 1rem !important;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          font-size: 13px !important;
+          margin: 1rem 0;
+        }
+        th, td {
+          padding: 6px 10px !important;
+          border: 1px solid #ddd !important;
+        }
+        th {
+          background: #f0f4f8 !important;
+          font-weight: 600 !important;
+        }
+        .table-scroll-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          box-shadow: inset 0 0 0 1px #e2e8f0;
+          border-radius: 6px;
+        }
       </style>
     `;
+
+    function showLoading() {
+      loadingIndicator.style.display = 'flex';
+    }
+
+    function hideLoading() {
+      loadingIndicator.style.display = 'none';
+    }
 
     function injectStyles() {
       try {
@@ -54,10 +106,12 @@
           doc.head.appendChild(el.firstElementChild);
 
           doc.querySelectorAll('table').forEach(t => {
-            const wrap = doc.createElement('div');
-            wrap.className = 'table-scroll-wrap';
-            t.parentNode.insertBefore(wrap, t);
-            wrap.appendChild(t);
+            if (!t.closest('.table-scroll-wrap')) {
+              const wrap = doc.createElement('div');
+              wrap.className = 'table-scroll-wrap';
+              t.parentNode.insertBefore(wrap, t);
+              wrap.appendChild(t);
+            }
           });
         }
       } catch(e) {}
@@ -71,9 +125,11 @@
     function loadPage(url, pushState) {
       const link = [...links].find(a => a.dataset.url === url);
       if (link) setActive(link);
+      showLoading();
       frame.src = url;
       if (pushState && link) {
         history.pushState(null, '', link.getAttribute('href'));
+        localStorage.setItem(STORAGE_KEY, link.getAttribute('href'));
       }
     }
 
@@ -84,14 +140,59 @@
       });
     });
 
-    frame.addEventListener('load', injectStyles);
+    frame.addEventListener('load', () => {
+      injectStyles();
+      hideLoading();
+    });
+
+    searchInput.addEventListener('input', e => {
+      const query = e.target.value.toLowerCase().trim();
+      navList.querySelectorAll('li').forEach(li => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const url = window.location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        copyBtn.classList.add('copied');
+        copyBtn.setAttribute('title', 'Link copiado!');
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.setAttribute('title', 'Copiar link');
+        }, 2000);
+      } catch(e) {
+        console.error('Erro ao copiar link:', e);
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT') return;
+      const activeLink = document.querySelector('.banco-sidebar nav a.active');
+      if (!activeLink) return;
+
+      const visibleLinks = [...links].filter(l => l.offsetParent !== null);
+      const currentIndex = visibleLinks.indexOf(activeLink);
+
+      if (e.key === 'ArrowDown' && currentIndex < visibleLinks.length - 1) {
+        e.preventDefault();
+        visibleLinks[currentIndex + 1].click();
+        visibleLinks[currentIndex + 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+        e.preventDefault();
+        visibleLinks[currentIndex - 1].click();
+        visibleLinks[currentIndex - 1].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    });
 
     function init() {
-      const hash = location.hash;
-      const link = hash ? document.querySelector(`.banco-sidebar nav a[href="${hash}"]`) : links[0];
-      const target = link || links[0];
-      setActive(target);
-      frame.src = target.dataset.url;
+      const hash = location.hash || localStorage.getItem(STORAGE_KEY) || '#ini';
+      const link = document.querySelector(`.banco-sidebar nav a[href="${hash}"]`) || links[0];
+      setActive(link);
+      showLoading();
+      frame.src = link.dataset.url;
     }
 
     window.addEventListener('popstate', init);
