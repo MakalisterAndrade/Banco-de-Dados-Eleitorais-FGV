@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Jairo Nicolau - Banco de Dados Eleitorais do Brasil</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript type=text/JavaScript>
+//menu
+function mOvr(src,clrOver) { 
+ if (!src.contains(event.fromElement)) { 
+ 	src.style.cursor = 'hand'; src.bgColor = clrOver; 
+ 	}
+ }
+
+function mOut(src,clrIn) { 
+ if (!src.contains(event.toElement)) { 
+ 	src.style.cursor = 'default'; src.bgColor = clrIn; 
+ 	}
+ }
+ 
+function mClk(src) { 
+  if(event.srcElement.tagName=='TD') {
+	src.children.tags('a')[0].click();
+        }
+ }
+ </script>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+.menu {
+	BORDER-BOTTOM: #666e7f 1px solid;
+	}
+.menufont {
+	FONT-WEIGHT: upercase; FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Tahoma,Verdana,arial; TEXT-DECORATION: none
+}
+.menufont:hover {
+	FONT-WEIGHT: upercase; FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Tahoma,Verdana,arial; TEXT-DECORATION: none
+}
+
+-->
+</style></head>
+
+<body>
+<table width="150px" height="100%" cellpadding="5" cellspacing="0" border="0" background="IMAGES/bannermenu.jpg">
+<tbody>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a href="main.htm" target="mainFrame" class="menufont">HOME</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a href="presidente.htm" target="mainFrame" class="menufont">PRESIDENT ELECTIONS </a></td>
+</tr>
+<tr>
+<td height="25px"  class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a href="camara.htm" target="mainFrame" class="menufont">HOUSE OF REPRESENTATIVES</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="senado.htm">FEDERAL SENATE</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="governador.htm">GOVERNOR</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="assembleias.htm">ASSEMBLÉIAS</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="prefeitura.htm">MUNICIPAIS</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="lista.htm">PARTIDOS BRASILEIROS</a></td>
+</tr>
+<tr>
+<td height="25px" class=menu onmouseover="mOvr(this,'F5F5F5');" onclick=mClk(this) onmouseout="mOut(this,'');" align="center"><a class="menufont" target="mainFrame" href="participacao.htm">LISTA DOS PARTIDOS PARTICIPANTES <BR>
+(1992 - 2002) </a></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

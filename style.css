@@ -1,0 +1,293 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-dark: #1a3a5c;
+  --blue-mid: #2563a8;
+  --blue-light: #dbeafe;
+  --accent: #f59e0b;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.site-header {
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 1.25rem 2rem;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.header-icon { font-size: 2rem; }
+.header-brand h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.header-brand p {
+  font-size: 0.85rem;
+  color: #93c5fd;
+  margin-top: 0.1rem;
+}
+
+/* ── Main ── */
+.main-content {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+  width: 100%;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.hero h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.75rem;
+}
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* ── Database Cards ── */
+.databases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.db-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.db-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(37,99,168,0.15);
+  border-color: var(--blue-mid);
+}
+
+.db-card-period {
+  display: inline-block;
+  background: var(--blue-dark);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.db-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  line-height: 1.3;
+}
+
+.db-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.db-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+.db-card-list li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  padding-left: 1.1rem;
+  position: relative;
+}
+.db-card-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--blue-mid);
+  font-weight: 700;
+}
+
+.db-card-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  background: var(--blue-mid);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: background 0.15s;
+  width: fit-content;
+}
+.db-card:hover .db-card-btn {
+  background: var(--blue-dark);
+}
+
+/* ── About ── */
+.about {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+.about h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.75rem;
+}
+.about p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 750px;
+}
+
+/* ── Footer ── */
+.site-footer {
+  background: var(--blue-dark);
+  color: #93c5fd;
+  text-align: center;
+  padding: 1.25rem 2rem;
+  font-size: 0.85rem;
+}
+
+/* ── Banco pages (banco45.html / banco2004.html) ── */
+.banco-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.banco-nav {
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 0.9rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.banco-nav-home {
+  color: #93c5fd;
+  text-decoration: none;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.banco-nav-home:hover { color: var(--white); }
+.banco-nav-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+.banco-nav-period {
+  margin-left: auto;
+  background: var(--accent);
+  color: #1c1917;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+
+.banco-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.banco-sidebar {
+  width: 210px;
+  min-width: 180px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.banco-sidebar nav ul {
+  list-style: none;
+}
+.banco-sidebar nav ul li a {
+  display: block;
+  padding: 0.6rem 1.5rem;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-left: 3px solid transparent;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.banco-sidebar nav ul li a:hover,
+.banco-sidebar nav ul li a.active {
+  background: var(--blue-light);
+  color: var(--blue-mid);
+  border-left-color: var(--blue-mid);
+}
+
+.banco-main {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg);
+}
+.banco-main iframe {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 56px);
+  border: none;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  .banco-layout { flex-direction: column; }
+  .banco-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+  .banco-sidebar nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0 0.75rem; }
+  .banco-sidebar nav ul li a { padding: 0.4rem 0.75rem; border-left: none; border-bottom: 2px solid transparent; font-size: 0.82rem; }
+  .banco-sidebar nav ul li a:hover, .banco-sidebar nav ul li a.active { border-left-color: transparent; border-bottom-color: var(--blue-mid); }
+  .databases { grid-template-columns: 1fr; }
+}

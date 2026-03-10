@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dados Eleitorais 1982–2006 — Jairo Nicolau</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="banco-page">
+  <header class="banco-nav">
+    <a href="index.html" class="banco-nav-home">← Início</a>
+    <span class="banco-nav-title">Dados Eleitorais do Brasil</span>
+    <span class="banco-nav-period">1982 – 2006</span>
+  </header>
+  <div class="banco-layout">
+    <aside class="banco-sidebar">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/ini.html'); return false;" class="active">Apresentação</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/presidente.html'); return false;">Presidência da República</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/camara.html'); return false;">Câmara dos Deputados</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/senador.html'); return false;">Senado</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/governador.html'); return false;">Governos Estaduais</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/assembleias.html'); return false;">Assembléias Legislativas</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/municipais.html'); return false;">Municipais — Prefeituras</a></li>
+          <li><a href="#" onclick="loadPage('jairo2006/port/pags/municipaisc.html'); return false;">Municipais — Câmaras</a></li>
+          <li><a href="jairo2006/port/pags/lista.htm" target="_blank">Partidos brasileiros</a></li>
+          <li><a href="jairo2006/port/pags/participacao.htm" target="_blank">Partidos participantes (1992–2006)</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="banco-main">
+      <iframe id="content-frame" src="jairo2006/port/pags/ini.html" name="main"></iframe>
+    </div>
+  </div>
+  <script>
+    function loadPage(url) {
+      document.getElementById('content-frame').src = url;
+      document.querySelectorAll('.banco-sidebar nav a').forEach(a => a.classList.remove('active'));
+    }
+  </script>
+</body>
+</html>
