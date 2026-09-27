@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Dados Eleitorais do Brasil – República de 1946</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#1a3a5c;--azul2:#2b5f8e;--cinza:#f4f6f9;--borda:#d0d8e4;--texto:#1a1a2e}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--cinza);color:var(--texto)}
+header{background:var(--azul);color:white;padding:1.8rem 2rem}
+header h1{font-size:1.4rem;font-weight:700;line-height:1.35}
+header p{font-size:.83rem;opacity:.72;margin-top:.4rem}
+.nav-link{font-size:.78rem;color:rgba(255,255,255,.65);text-decoration:none;margin-top:.5rem;display:inline-block}
+.nav-link:hover{color:white}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.3rem}
+.intro{background:white;border:1px solid var(--borda);border-radius:8px;padding:1.6rem 2rem;margin-bottom:2rem;line-height:1.75;font-size:.95rem}
+.intro p{margin-bottom:.9rem}
+.intro p:last-child{margin-bottom:0}
+.intro .ref{font-style:italic;font-size:.88rem;color:#555}
+h2{font-size:1rem;font-weight:700;color:var(--azul);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem}
+.card-link{text-decoration:none;color:inherit}
+.card-link:hover .card{border-color:var(--azul2);box-shadow:0 2px 10px rgba(43,95,142,.15)}
+.card{background:white;border:1px solid var(--borda);border-radius:8px;padding:1.2rem 1.4rem;transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.card .cargo{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#999;margin-bottom:.35rem}
+.card .titulo{font-size:1.05rem;font-weight:700;color:var(--azul);margin-bottom:.3rem}
+.card .periodo{font-size:.8rem;color:#888}
+.card .seta{float:right;font-size:1.1rem;color:var(--azul2);margin-top:.1rem}
+.em-breve{opacity:.5;cursor:default}
+.em-breve .badge{display:inline-block;background:#e8f0fb;color:#2b5f8e;font-size:.68rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;margin-top:.4rem;letter-spacing:.03em}
+footer{text-align:center;padding:1.4rem;color:#bbb;font-size:.75rem;border-top:1px solid var(--borda);margin-top:1rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Banco de Dados Eleitorais do Brasil &mdash; República de 1946</h1>
+  <p>Eleições federais e estaduais &middot; 1945&ndash;1962 &middot; FGV</p>
+  <a class="nav-link" href="index.html">&larr; Página inicial</a>
+</header>
+<div class="container">
+  <div class="intro">
+    <p>Os resultados das eleições realizadas entre 1945 e 1962 foram publicados em sete volumes pelo Tribunal Superior Eleitoral. O propósito deste banco é apresentar parte desses dados em formato eletrônico interativo.</p>
+    <p>Os dados foram selecionados, digitados e exaustivamente verificados. Todas as imprecisões identificadas aparecem em notas. Esta é uma apresentação do material que, esperamos, seja útil a pesquisadores interessados na vida eleitoral da República de 1946.</p>
+    <p>Com relação aos resultados para a Câmara dos Deputados, o procedimento adotado é o mesmo descrito em detalhes no artigo <span class="ref">"Partidos na República de 1946: Velhas Teses, Novos Dados", <em>Revista Dados</em>, 47(1), 2004.</span> Alguns dados sobre as bancadas dos partidos foram publicados com erros naquele artigo, mas estão corrigidos nesta versão do banco.</p>
+    <p>Apesar do esforço de verificação, o banco pode conter erros. Pesquisadores que identificarem alguma inconsistência nos dados podem enviar uma mensagem para o organizador, Jairo Nicolau (<a href="mailto:jairo.nicolau@fgv.br" style="color:var(--azul2)">jairo.nicolau@fgv.br</a>), indicando o cargo, o ano, o estado e, se possível, a fonte. Comentários e sugestões também são bem-vindos.</p>
+  </div>
+
+  <h2>Cargos disponíveis</h2>
+  <div class="cards">
+
+    <a class="card-link" href="presidente_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Executivo federal</div>
+        <div class="titulo">Presidente da República</div>
+        <div class="periodo">1945 · 1950 · 1955 · 1960</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="vice_presidente_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Executivo federal</div>
+        <div class="titulo">Vice-Presidente da República</div>
+        <div class="periodo">1950 · 1955 · 1960</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="camara_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Legislativo federal</div>
+        <div class="titulo">Câmara dos Deputados – Votos</div>
+        <div class="periodo">1945 · 1947 · 1950 · 1954 · 1958 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="cadeiras_camara_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Legislativo federal</div>
+        <div class="titulo">Câmara dos Deputados – Cadeiras</div>
+        <div class="periodo">1945 · 1947 · 1950 · 1954 · 1958 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="senado_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Legislativo federal</div>
+        <div class="titulo">Senado Federal</div>
+        <div class="periodo">1945 · 1947 · 1950 · 1954 · 1958 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="governador_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Executivo estadual</div>
+        <div class="titulo">Governadores</div>
+        <div class="periodo">1947 · 1950 · 1954–55 · 1958 · 1960 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="cadeiras_assembleia_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Legislativo estadual</div>
+        <div class="titulo">Assembleias Legislativas – Cadeiras</div>
+        <div class="periodo">1947 · 1950 · 1954 · 1958 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="votos_assembleia_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Legislativo estadual</div>
+        <div class="titulo">Assembleias Legislativas – Votos</div>
+        <div class="periodo">1947 · 1950 · 1954 · 1958 · 1962</div>
+      </div>
+    </a>
+
+    <a class="card-link" href="partidos_republica_46.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Referência</div>
+        <div class="titulo">Partidos e siglas</div>
+        <div class="periodo">1945–1962</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+<footer>Banco de Dados Eleitorais do Brasil &ndash; República de 1946 &middot; FGV &middot; 2025</footer>
+</body>
+</html>

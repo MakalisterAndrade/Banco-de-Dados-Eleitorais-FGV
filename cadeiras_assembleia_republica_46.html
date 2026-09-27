@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assembleias Legislativas – Cadeiras por Partido – República de 1946</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#1a3a5c;--azul2:#2b5f8e;--cinza:#f4f6f9;--borda:#d0d8e4;--texto:#1a1a2e;--ouro:#c8960c}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--cinza);color:var(--texto)}
+header{background:var(--azul);color:white;padding:1.4rem 2rem}
+header h1{font-size:1.28rem;font-weight:700;line-height:1.35}
+header p{font-size:.81rem;opacity:.72;margin-top:.3rem}
+.nav-link{font-size:.78rem;color:rgba(255,255,255,.65);text-decoration:none;margin-top:.5rem;display:inline-block}
+.nav-link:hover{color:white}
+.container{max-width:1100px;margin:0 auto;padding:1.3rem}
+.controls{background:white;border:1px solid var(--borda);border-radius:8px;padding:1rem 1.4rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end}
+.ctrl label{display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;color:#666;letter-spacing:.04em;margin-bottom:.28rem}
+select{padding:.42rem .72rem;border:1px solid var(--borda);border-radius:5px;font-size:.87rem;background:white;cursor:pointer;min-width:155px}
+select:focus{outline:none;border-color:var(--azul2)}
+.vbtns{display:flex;gap:.3rem}
+.vbtns button{padding:.38rem .82rem;border:1px solid var(--borda);border-radius:5px;background:white;cursor:pointer;font-size:.81rem;color:#555}
+.vbtns button.on{background:var(--azul);color:white;border-color:var(--azul)}
+.aviso{background:#fff8e1;border-left:3px solid #f9a825;padding:.6rem .9rem;font-size:.8rem;color:#555;margin-bottom:.8rem;border-radius:3px;line-height:1.5}
+.aviso-metodo{background:#e8f4fd;border-left:3px solid #2b5f8e;padding:.6rem .9rem;font-size:.8rem;color:#333;margin-bottom:.8rem;border-radius:3px;line-height:1.5}
+.hidden{display:none}
+.sumario{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.scard{background:white;border:1px solid var(--borda);border-radius:6px;padding:.5rem .85rem;display:flex;align-items:center;gap:.55rem;min-width:130px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.snm{font-size:.78rem;font-weight:700;color:var(--azul)}
+.scad{font-size:1.05rem;font-weight:700}
+.spct{font-size:.72rem;color:#888}
+.tbl-wrap{background:white;border:1px solid var(--borda);border-radius:8px;overflow:auto;margin-bottom:.7rem}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead tr{background:var(--azul);color:white}
+th{padding:.55rem .8rem;text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.02em;font-weight:600;white-space:nowrap}
+th:first-child{text-align:left}
+th.r{text-align:right}
+tbody tr{border-bottom:1px solid #eee}
+tbody tr:hover td{background:#f5f8ff!important}
+tbody tr.sub td{background:#edf2fb;font-weight:700;color:var(--azul2);font-size:.8rem}
+tbody tr.tot td{background:var(--azul)!important;color:white;font-weight:700;font-size:.82rem}
+td{padding:.4rem .8rem;text-align:center;vertical-align:middle}
+td:first-child{text-align:left}
+.zero{color:#ccc}
+.cv{display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.abs{font-size:.84rem}
+.pct{font-size:.68rem;color:#999}
+tr.sub .pct{color:#8a9fc0}
+tr.tot .pct{color:rgba(255,255,255,.65)}
+.nota-fonte{font-size:.76rem;color:#777;margin-top:.5rem;line-height:1.5;padding:.4rem 0}
+.nota-bloco{background:white;border:1px solid var(--borda);border-radius:8px;padding:.8rem 1.1rem;margin-top:.7rem;font-size:.8rem;line-height:1.55;color:#444}
+.nota-bloco h3{font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:#666;margin-bottom:.3rem}
+.nota-bloco p+h3{margin-top:.7rem}
+.btn-csv{padding:.42rem .9rem;border:1px solid var(--azul2);border-radius:5px;background:white;color:var(--azul2);cursor:pointer;font-size:.81rem}
+.btn-csv:hover{background:var(--azul2);color:white}
+@media (max-width:600px){header{padding:1rem}.container{padding:.8rem}.controls{padding:.8rem}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Assembleias Legislativas &mdash; Cadeiras por Partido</h1>
+  <p>República de 1946 &middot; 1947&ndash;1962 &middot; FGV</p>
+  <a class="nav-link" href="index.html">← Voltar ao índice</a>
+</header>
+<div class="container">
+  <div class="aviso-metodo">
+    Número de deputados estaduais eleitos por partido em cada estado. Fonte: tabelas de representação partidária publicadas pelo Tribunal Superior Eleitoral (indicadas abaixo da tabela). Até 1958, a linha do Distrito Federal corresponde à Câmara dos Vereadores.
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <label for="ano">Eleição</label>
+      <select id="ano" onchange="render()">
+        <option value="1947">1947</option>
+        <option value="1950">1950</option>
+        <option value="1954">1954</option>
+        <option value="1958">1958</option>
+        <option value="1962">1962</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label>Subtotais regionais</label>
+      <div class="vbtns">
+        <button id="btn-sem" class="on" onclick="setView('sem')">Sem</button>
+        <button id="btn-com" onclick="setView('com')">Com</button>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn-csv" onclick="baixarCSV()">Baixar CSV</button>
+    </div>
+  </div>
+
+  <div id="sumario" class="sumario"></div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead id="th"></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+  <div class="nota-bloco">
+    <h3>Notas</h3><p id="n-nota"></p>
+    <h3>Coligações e alianças</h3><p id="n-col"></p>
+    <h3>Fonte</h3><p id="n-fonte"></p>
+  </div>
+</div>
+<script>
+const D={"1947":{"partidos":["PSD","UDN","PTB","PCB","PR","PSP","PPB","PRP","PTN","ED","PDC","PL","PRD"],"dados":[{"estado":"Amazonas","tipo":"estado","cadeiras":[9,15,5,null,null,null,null,null,1,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[22,3,2,1,null,9,null,null,null,null,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[31,18,7,1,null,9,null,null,1,null,null,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[4,4,1,null,8,null,19,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[17,14,1,null,null,null,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[19,16,null,2,null,7,null,1,null,null,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[18,14,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[14,21,1,1,null,null,null,null,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[23,18,1,9,3,null,null,1,null,null,null,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[19,9,4,3,null,null,null,null,null,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[13,9,1,1,7,null,null,null,null,1,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[19,28,7,2,3,null,null,1,null,null,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[146,133,16,18,21,7,19,3,null,1,null,null,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[29,16,6,1,14,null,null,1,4,null,1,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[14,6,2,1,4,null,null,2,null,null,2,null,1]},{"estado":"Distrito Federal*","tipo":"estado","cadeiras":[6,9,9,18,5,null,null,1,1,1,null,null,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[24,14,8,6,1,null,null,1,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[26,9,14,11,3,9,null,1,null,null,2,null,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[99,54,39,37,27,9,null,6,5,1,5,null,1]},{"estado":"Paraná","tipo":"estado","cadeiras":[16,7,6,1,4,1,null,2,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[21,13,2,null,null,null,null,1,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[16,4,23,3,null,null,null,4,null,null,null,5,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[53,24,31,4,4,1,null,7,null,null,null,5,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[16,11,1,2,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[15,10,null,2,1,null,null,null,null,4,null,null,null]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[31,21,1,4,1,null,null,null,null,4,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[360,250,94,64,53,26,19,16,6,6,5,5,1]}],"fonte":"TSE, <em>Dados Estatísticos: eleições federal, estadual e municipal realizadas no Brasil a partir de 1945</em>, quadro 16 (Deputados Estaduais e Vereadores – Quocientes Partidários), p. 72.","col":"Na fonte, as cadeiras obtidas por coligações aparecem na coluna do partido principal: Rio Grande do Norte – UDN e PSP (na UDN); Pernambuco – UDN, PDC e PL (na UDN); Mato Grosso – UDN e PR (na UDN); Distrito Federal – PSD e POT (no PSD).","nota":"* Distrito Federal: os números referem-se à Câmara dos Vereadores."},"1950":{"partidos":["PSD","UDN","PTB","PSP","PR","PST","PL","PRP","PDC","PTN","PSB","PRT","POT","PRB"],"dados":[{"estado":"Amazonas","tipo":"estado","cadeiras":[12,9,4,2,null,null,null,null,3,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[18,3,3,12,null,null,null,null,null,null,1,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[30,12,7,14,null,null,null,null,3,null,1,null,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[3,1,2,7,3,20,null,null,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[14,15,2,1,null,null,null,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[17,21,1,4,2,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[11,10,2,5,1,5,null,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[14,15,1,1,3,null,5,null,null,null,1,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[29,15,5,7,null,1,5,1,2,null,null,null,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[6,9,null,2,null,17,null,null,null,null,1,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[9,11,3,1,7,null,null,null,null,null,1,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[21,20,8,null,5,null,3,2,null,null,1,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[124,117,24,28,21,43,13,3,2,null,4,null,null,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[22,21,10,1,9,1,null,2,2,4,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[15,7,6,null,2,null,null,2,null,null,null,null,null,null]},{"estado":"Distrito Federal*","tipo":"estado","cadeiras":[7,10,15,5,3,1,null,1,2,1,null,3,1,1]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[18,14,15,4,2,null,null,1,null,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[9,10,12,19,3,1,1,2,5,9,2,2,null,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[71,62,58,29,19,3,1,8,9,14,2,5,1,1]},{"estado":"Paraná","tipo":"estado","cadeiras":[16,8,12,2,6,null,null,1,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[18,13,5,1,null,null,null,2,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[17,4,21,2,null,null,6,4,null,null,1,null,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[51,25,38,5,6,null,6,7,null,null,1,null,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[11,12,7,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[15,9,3,5,null,null,null,null,null,null,null,null,null,null]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[26,21,10,5,null,null,null,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[302,237,137,81,46,46,20,18,14,14,8,5,1,1]}],"fonte":"TSE, <em>Dados Estatísticos: eleições federais e estaduais realizadas no Brasil em 1950</em>, v. 2, p. 46 (Assembléias Legislativas e Câmara do Distrito Federal – Representação Partidária).","col":"Nesta eleição a publicação do TSE distribui todas as cadeiras por partido, inclusive as obtidas por candidatos eleitos em coligações.","nota":"* Distrito Federal: os números referem-se à Câmara dos Vereadores."},"1954":{"partidos":["PSD","UDN","PTB","PSP","PR","PDC","PL","PST","PTN","PRP","PSB","PRT","Colig./Alian."],"dados":[{"estado":"Amazonas","tipo":"estado","cadeiras":[8,4,11,4,null,2,null,1,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[null,5,4,9,2,null,null,null,null,null,null,null,17]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[8,9,15,13,2,2,null,1,null,null,null,null,17]},{"estado":"Maranhão","tipo":"estado","cadeiras":[27,1,null,7,null,3,null,null,null,null,null,null,2]},{"estado":"Piauí","tipo":"estado","cadeiras":[15,null,4,null,null,null,null,null,null,null,null,null,13]},{"estado":"Ceará","tipo":"estado","cadeiras":[15,15,7,8,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[13,null,2,null,1,null,null,null,null,null,null,null,18]},{"estado":"Paraíba","tipo":"estado","cadeiras":[14,15,3,1,1,null,5,null,null,null,1,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[23,12,10,null,1,5,null,5,null,null,1,null,8]},{"estado":"Alagoas","tipo":"estado","cadeiras":[8,16,3,3,null,null,null,null,5,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[9,null,3,2,6,null,null,null,null,null,null,null,12]},{"estado":"Bahia","tipo":"estado","cadeiras":[null,11,8,3,9,3,5,2,null,2,null,null,17]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[124,70,40,24,18,11,10,7,5,2,2,null,70]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[25,12,11,3,14,2,null,4,2,1,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[12,null,8,3,null,null,null,null,null,null,null,null,9]},{"estado":"Distrito Federal*","tipo":"estado","cadeiras":[7,9,9,6,5,3,2,2,2,1,2,2,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[20,10,11,5,2,3,null,null,null,null,3,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[11,7,8,17,7,4,1,3,7,3,4,3,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[75,38,47,34,28,12,3,9,11,5,9,5,9]},{"estado":"Paraná","tipo":"estado","cadeiras":[11,8,11,7,7,1,null,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[15,15,5,2,null,1,null,null,null,1,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[15,3,23,2,null,null,7,null,null,4,1,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[41,26,39,11,7,2,7,null,null,5,1,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[10,14,3,3,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[14,8,4,6,null,null,null,null,null,null,null,null,null]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[24,22,7,9,null,null,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[272,165,148,91,55,27,20,17,16,12,12,5,96]}],"fonte":"TSE, <em>Dados Estatísticos: eleições federais e estaduais realizadas em 1954 e 1955</em>, v. 3, 2ª parte, quadros sinópticos por estado (item 4 – Assembléia Legislativa; Distrito Federal: Câmara dos Vereadores).","col":"Cadeiras entre parênteses. Pará – Aliança Social Democrática, PSD-PRP (17); Maranhão – Unidos pelo Maranhão (2); Piauí – Aliança Democrática Progressista, PSP-UDN-PL (13); Rio Grande do Norte – Aliança Democrata Cristã, UDN-PDC (11), e Aliança Social Progressista (7); Pernambuco – Aliança PSP-PL (8); Sergipe – UDN-PST-PTN (12); Bahia – Aliança Social Democrática (17); Espírito Santo – Aliança Interpartidária, UDN-PDC (5), e Coligação Democrática, PR-PRP (4).","nota":"* Distrito Federal: os números referem-se à Câmara dos Vereadores."},"1958":{"partidos":["PSD","PTB","UDN","PSP","PR","PDC","PRT","PST","PTN","PSB","PRP","PL","Colig./Alian."],"dados":[{"estado":"Amazonas","tipo":"estado","cadeiras":[6,10,3,4,null,1,null,5,null,1,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[15,5,6,null,2,null,null,null,null,null,null,null,9]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[21,15,9,4,2,1,null,5,null,1,null,null,9]},{"estado":"Maranhão","tipo":"estado","cadeiras":[21,4,null,null,null,null,null,null,null,null,null,null,15]},{"estado":"Piauí","tipo":"estado","cadeiras":[13,7,9,null,null,null,null,null,null,null,null,null,3]},{"estado":"Ceará","tipo":"estado","cadeiras":[16,8,15,8,null,null,6,null,null,null,1,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[13,3,null,null,null,null,null,null,null,null,null,null,18]},{"estado":"Paraíba","tipo":"estado","cadeiras":[18,null,null,7,1,null,null,null,null,3,null,null,11]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[17,13,7,2,2,2,10,8,1,2,1,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[null,null,8,14,null,null,null,null,null,null,null,null,13]},{"estado":"Sergipe","tipo":"estado","cadeiras":[null,3,15,1,6,null,null,null,null,null,null,null,7]},{"estado":"Bahia","tipo":"estado","cadeiras":[19,4,12,2,10,3,null,2,3,null,2,3,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[117,42,66,34,19,5,16,10,4,5,4,3,67]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[24,12,11,5,17,1,null,null,3,null,1,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[11,8,5,5,null,1,null,null,null,null,2,null,null]},{"estado":"Distrito Federal*","tipo":"estado","cadeiras":[7,7,8,5,4,2,4,2,3,4,1,3,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[15,13,7,8,3,3,null,null,2,3,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[7,6,9,16,7,11,6,6,10,6,5,2,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[64,46,40,39,31,18,10,8,18,13,9,5,null]},{"estado":"Paraná","tipo":"estado","cadeiras":[17,13,null,4,null,3,null,null,null,null,null,null,8]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[15,6,16,2,null,1,null,null,null,null,1,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[13,24,3,2,1,2,null,null,null,null,3,7,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[45,43,19,8,1,6,null,null,null,null,4,7,8]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[11,4,13,2,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[18,4,null,null,null,null,null,null,null,null,null,null,10]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[29,8,13,2,null,null,null,null,null,null,null,null,10]},{"estado":"BRASIL","tipo":"total","cadeiras":[276,154,147,87,53,30,26,23,22,19,17,15,94]}],"fonte":"TSE, <em>Dados Estatísticos: eleições federais e estaduais realizadas no Brasil em 1958, e em confronto com anteriores</em>, p. 57 (Assembléia Legislativa – Representação Partidária) e p. 59 (Votação obtida pelas alianças).","col":"Cadeiras entre parênteses. Pará – Coligação Democrática Paraense, PSP-PSB (9); Maranhão – Oposições Coligadas, UDN-PDC-PR (15); Piauí – Coligação Democrática Piauiense, PSP-PRP-PR (3); Rio Grande do Norte – Frente Popular Democrática, UDN-PR (16), e Aliança Popular Nacionalista, PTN-PST-PSB (2); Paraíba – Coligação Nacionalista Libertadora, UDN-PL (11); Alagoas – Frente Democrática Trabalhista, PSD-PTB-PRP (9), e Aliança Socialista Cristã, PSB-PDC-PST (4); Sergipe – Aliança Social Democrática, PSD-PSB (7); Paraná – Frente Democrática Paranaense, UDN-PR, e Frente Trabalhista Cristã, PRP-PTN-PRT (8 no total, distribuídas 7/1 na fonte); Goiás – Coligação Democrática, UDN-PSP, e União Cristã Popular, PDC-PRP (10).","nota":"* Distrito Federal: os números referem-se à Câmara dos Vereadores. Eleição de 3/10/1958, com eleições suplementares em Pernambuco (14/12/1958) e na Bahia (23/3/1959)."},"1962":{"partidos":["PSD","PTB","UDN","PDC","PSP","PST","PR","PRP","PTN","PL","PSB","PRT","MTR","Colig./Alian."],"dados":[{"estado":"Acre","tipo":"estado","cadeiras":[8,7,null,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[6,6,3,3,null,5,null,null,null,3,2,2,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[17,6,4,null,null,null,3,null,null,null,null,null,null,7]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[31,19,7,3,null,5,3,null,null,3,2,2,null,7]},{"estado":"Maranhão","tipo":"estado","cadeiras":[23,2,null,null,6,null,null,null,null,3,null,null,null,6]},{"estado":"Piauí","tipo":"estado","cadeiras":[8,16,13,1,null,null,null,null,null,null,null,null,null,4]},{"estado":"Ceará","tipo":"estado","cadeiras":[null,9,null,2,4,4,null,3,9,null,null,null,null,34]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[null,4,null,null,null,null,null,null,3,null,null,null,null,33]},{"estado":"Paraíba","tipo":"estado","cadeiras":[10,6,6,8,null,null,1,null,null,2,7,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[null,1,null,9,null,13,5,6,2,null,1,null,null,28]},{"estado":"Alagoas","tipo":"estado","cadeiras":[5,2,7,5,9,2,null,null,null,5,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[5,2,13,null,null,null,null,null,null,null,null,4,null,8]},{"estado":"Bahia","tipo":"estado","cadeiras":[10,null,12,6,4,5,null,2,2,null,1,null,1,17]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[61,42,51,31,23,24,6,11,16,10,9,4,1,130]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[18,12,26,2,9,null,10,2,null,null,null,null,null,3]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[13,9,7,1,10,null,null,3,null,null,null,null,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[4,13,14,3,3,4,3,null,2,2,3,3,1,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[12,13,7,5,8,2,5,null,4,null,3,null,3,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[null,12,11,12,null,10,13,7,null,null,2,9,null,39]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[47,59,65,23,30,16,31,12,6,2,8,12,4,42]},{"estado":"Paraná","tipo":"estado","cadeiras":[7,12,8,12,null,null,null,null,null,null,null,null,null,6]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[20,6,14,2,1,null,null,2,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[11,23,3,4,null,null,null,3,null,6,null,null,4,1]},{"estado":"SUL","tipo":"subtotal","cadeiras":[38,41,25,18,1,null,null,5,null,6,null,null,4,7]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[9,7,13,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[21,null,null,null,null,null,null,null,null,null,null,null,null,18]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[30,7,13,null,1,null,null,null,null,null,null,null,null,18]},{"estado":"BRASIL","tipo":"total","cadeiras":[207,168,161,75,55,45,40,28,22,21,19,18,9,204]}],"fonte":"TSE, <em>Dados Estatísticos: eleições federais, estaduais realizadas no Brasil em 1962 e em confronto com anteriores</em> (6º volume), p. 61 (Assembléia Legislativa – Representação Partidária).","col":"Cadeiras entre parênteses. Rio Grande do Norte – PSD-PDC e UDN-PST (33); Pará – PSP-PTN-PRT-PSB-PL-MTR (7); Maranhão – UDN-PR-PDC-PTN (6); Piauí – PSP-PST-PRP (4); Ceará – PSD-UDN (34); Pernambuco – PSD-UDN (28); Sergipe – PR-PDC e PSP-PST (8); Bahia – PTB-PR-PL (17); Minas Gerais – PL-MTR (3); São Paulo – PSD-PSP e PTN-MTR (39); Paraná – PRP-PTN-PST-PR-PSP-MTR (6); Rio Grande do Sul – Aliança Republicana Socialista (1); Goiás – UDN-PSP, PDC-MTR e PTB-PSB (18).","nota":"Em 1962, o antigo Distrito Federal já era o Estado da Guanabara, e o Acre elegeu pela primeira vez sua Assembleia."}};
+
+const PCOLORS={
+  PSD:'#1a3a5c',UDN:'#c0392b',PTB:'#27ae60',PCB:'#7f0000',
+  PSP:'#8e44ad',PR:'#e67e22',PDC:'#16a085',PSB:'#2980b9',
+  PL:'#795548',PRP:'#607d8b',PTN:'#f39c12',PST:'#95a5a6',
+  PRT:'#d35400',MTR:'#cddc39',PPB:'#b8860b',ED:'#e91e63',PRD:'#5d4037',
+  POT:'#78909c',PRB:'#8d6e63','Colig./Alian.':'#9e9e9e'
+};
+function pcolor(p){return PCOLORS[p]||'#888';}
+
+let viewMode='sem';
+function setView(v){
+  viewMode=v;
+  document.getElementById('btn-sem').className=v==='sem'?'on':'';
+  document.getElementById('btn-com').className=v==='com'?'on':'';
+  render();
+}
+
+function render(){
+  const ano=document.getElementById('ano').value;
+  const d=D[ano], ps=d.partidos;
+  const tot=d.dados.find(r=>r.tipo==='total');
+  const tv=tot.cadeiras.reduce((a,b)=>a+(b||0),0);
+
+  document.getElementById('sumario').innerHTML=ps.map((p,i)=>({p,v:tot.cadeiras[i]||0}))
+    .filter(x=>x.v>0).map(x=>
+    `<div class="scard"><div class="dot" style="background:${pcolor(x.p)}"></div>
+      <div><div class="snm">${x.p}</div><div class="scad">${x.v}</div><div class="spct">${(x.v/tv*100).toFixed(1)}%</div></div></div>`
+  ).join('')+`<div class="scard"><div><div class="snm" style="color:#555">Total</div><div class="scad">${tv}</div></div></div>`;
+
+  document.getElementById('th').innerHTML=
+    `<tr><th>Estado</th>${ps.map(p=>`<th style="border-bottom:2px solid ${pcolor(p)}">${p}</th>`).join('')}<th>Total</th></tr>`;
+
+  const rows=viewMode==='com'?d.dados:d.dados.filter(r=>r.tipo!=='subtotal');
+  document.getElementById('tb').innerHTML=rows.map(r=>{
+    const cls=r.tipo==='subtotal'?'sub':r.tipo==='total'?'tot':'';
+    const rt=r.cadeiras.reduce((a,b)=>a+(b||0),0);
+    const cells=ps.map((p,i)=>{
+      const v=r.cadeiras[i];
+      if(!v) return`<td class="zero">–</td>`;
+      return`<td><div class="cv"><span class="abs">${v}</span><span class="pct">${(v/rt*100).toFixed(1)}%</span></div></td>`;
+    }).join('');
+    return`<tr class="${cls}"><td>${r.estado}</td>${cells}<td><div class="cv"><span class="abs"><b>${rt}</b></span></div></td></tr>`;
+  }).join('');
+
+  document.getElementById('n-nota').textContent=d.nota;
+  document.getElementById('n-col').textContent=d.col;
+  document.getElementById('n-fonte').innerHTML=d.fonte;
+}
+
+function baixarCSV(){
+  const ano=document.getElementById('ano').value, d=D[ano];
+  const linhas=[['ano','unidade','tipo',...d.partidos,'total'].join(';')];
+  d.dados.forEach(r=>{
+    const rt=r.cadeiras.reduce((a,b)=>a+(b||0),0);
+    linhas.push([ano,r.estado.replace('*',''),r.tipo,...r.cadeiras.map(v=>v||0),rt].join(';'));
+  });
+  const blob=new Blob(['\ufeff'+linhas.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`assembleias_cadeiras_${ano}.csv`; a.click(); URL.revokeObjectURL(a.href);
+}
+
+render();
+</script>
+</body>
+</html>

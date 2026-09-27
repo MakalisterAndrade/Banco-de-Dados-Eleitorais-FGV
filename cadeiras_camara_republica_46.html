@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Câmara dos Deputados – Cadeiras por Partido – República de 1946</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#1a3a5c;--azul2:#2b5f8e;--cinza:#f4f6f9;--borda:#d0d8e4;--texto:#1a1a2e;--ouro:#c8960c}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--cinza);color:var(--texto)}
+header{background:var(--azul);color:white;padding:1.4rem 2rem}
+header h1{font-size:1.28rem;font-weight:700;line-height:1.35}
+header p{font-size:.81rem;opacity:.72;margin-top:.3rem}
+.nav-link{font-size:.78rem;color:rgba(255,255,255,.65);text-decoration:none;margin-top:.5rem;display:inline-block}
+.nav-link:hover{color:white}
+.container{max-width:1100px;margin:0 auto;padding:1.3rem}
+.controls{background:white;border:1px solid var(--borda);border-radius:8px;padding:1rem 1.4rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end}
+.ctrl label{display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;color:#666;letter-spacing:.04em;margin-bottom:.28rem}
+select{padding:.42rem .72rem;border:1px solid var(--borda);border-radius:5px;font-size:.87rem;background:white;cursor:pointer;min-width:155px}
+select:focus{outline:none;border-color:var(--azul2)}
+.vbtns{display:flex;gap:.3rem}
+.vbtns button{padding:.38rem .82rem;border:1px solid var(--borda);border-radius:5px;background:white;cursor:pointer;font-size:.81rem;color:#555}
+.vbtns button.on{background:var(--azul);color:white;border-color:var(--azul)}
+.aviso{background:#fff8e1;border-left:3px solid #f9a825;padding:.6rem .9rem;font-size:.8rem;color:#555;margin-bottom:.8rem;border-radius:3px;line-height:1.5}
+.aviso-metodo{background:#e8f4fd;border-left:3px solid #2b5f8e;padding:.6rem .9rem;font-size:.8rem;color:#333;margin-bottom:.8rem;border-radius:3px;line-height:1.5}
+.hidden{display:none}
+.sumario{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.scard{background:white;border:1px solid var(--borda);border-radius:6px;padding:.5rem .85rem;display:flex;align-items:center;gap:.55rem;min-width:130px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.snm{font-size:.78rem;font-weight:700;color:var(--azul)}
+.scad{font-size:1.05rem;font-weight:700}
+.spct{font-size:.72rem;color:#888}
+.tbl-wrap{background:white;border:1px solid var(--borda);border-radius:8px;overflow:auto;margin-bottom:.7rem}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead tr{background:var(--azul);color:white}
+th{padding:.55rem .8rem;text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.02em;font-weight:600;white-space:nowrap}
+th:first-child{text-align:left}
+th.r{text-align:right}
+tbody tr{border-bottom:1px solid #eee}
+tbody tr:hover td{background:#f5f8ff!important}
+tbody tr.sub td{background:#edf2fb;font-weight:700;color:var(--azul2);font-size:.8rem}
+tbody tr.tot td{background:var(--azul)!important;color:white;font-weight:700;font-size:.82rem}
+td{padding:.4rem .8rem;text-align:center;vertical-align:middle}
+td:first-child{text-align:left}
+.zero{color:#ccc}
+.cv{display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.abs{font-size:.84rem}
+.pct{font-size:.68rem;color:#999}
+tr.sub .pct{color:#8a9fc0}
+tr.tot .pct{color:rgba(255,255,255,.65)}
+.nota-fonte{font-size:.76rem;color:#777;margin-top:.5rem;line-height:1.5;padding:.4rem 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Câmara dos Deputados &mdash; Cadeiras por Partido</h1>
+  <p>República de 1946 &middot; 1945&ndash;1962 &middot; FGV</p>
+  <a class="nav-link" href="index.html">← Voltar ao índice</a>
+</header>
+<div class="container">
+  <div class="aviso-metodo">
+    O número de cadeiras de cada partido ou coligação em cada estado segue os resultados oficiais publicados pelo TSE. Quando os partidos concorreram coligados, a estatística oficial informa apenas as cadeiras da coligação; nesses casos, as cadeiras foram atribuídas aos partidos a partir da identificação da legenda de cada deputado eleito. A metodologia utilizada é descrita em: Nicolau, J. "Partidos na República de 1946: Velhas Teses, Novos Dados", <em>Revista Dados</em>, 47(1), 2004.
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <label for="ano">Eleição</label>
+      <select id="ano" onchange="render()">
+        <option value="1945">1945</option>
+        <option value="1947">1947</option>
+        <option value="1950">1950</option>
+        <option value="1954">1954</option>
+        <option value="1958">1958</option>
+        <option value="1962">1962</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label>Subtotais regionais</label>
+      <div class="vbtns">
+        <button id="btn-sem" class="on" onclick="setView('sem')">Sem</button>
+        <button id="btn-com" onclick="setView('com')">Com</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="aviso" class="aviso hidden"></div>
+  <div id="sumario" class="sumario"></div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead id="th"></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+  <div id="nota-fonte" class="nota-fonte hidden"></div>
+</div>
+<script>
+const D={"1945":{"partidos":["PSD","UDN","PTB","PCB","PR","PPS","PRProg.","PDC","PL"],"dados":[{"estado":"Acre","tipo":"estado","cadeiras":[2,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[3,1,1,null,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[6,2,null,null,null,1,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[11,3,1,null,null,1,null,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[6,2,null,null,1,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[3,4,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[5,10,null,null,null,2,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[4,2,null,null,null,null,1,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[3,7,null,null,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[10,4,null,3,1,null,null,1,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[6,3,null,null,null,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[2,2,null,null,1,null,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[10,12,1,1,null,1,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[49,46,1,4,3,3,1,1,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[20,7,2,null,6,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[6,1,null,null,null,null,null,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[2,3,9,3,null,null,null,null,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[10,4,1,2,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[16,7,6,4,null,null,1,1,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[54,22,18,9,6,null,1,1,null]},{"estado":"Paraná","tipo":"estado","cadeiras":[6,2,1,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[7,2,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[16,2,1,1,null,null,null,null,1]},{"estado":"SUL","tipo":"subtotal","cadeiras":[29,6,2,1,null,null,null,null,1]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[3,2,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[5,2,null,null,null,null,null,null,null]},{"estado":"C. OESTE","tipo":"subtotal","cadeiras":[8,4,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[151,81,22,14,9,4,2,2,1]}]},"1947":{"partidos":["PSD","PTB","PSP/PTN","PSD/PR","UDN/PTB","UDN/PR","PSD/UDN"],"dados":[{"estado":"Amazonas","tipo":"estado","cadeiras":[null,null,null,null,2,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[null,null,null,null,2,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[null,null,null,2,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[null,null,null,null,null,null,1]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[null,null,null,2,null,null,1]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[1,null,null,null,null,2,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[null,1,3,1,null,null,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[1,1,3,1,null,2,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[1,null,null,null,null,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[1,null,null,null,null,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[2,null,null,null,null,null,null]},{"estado":"CENTRO OESTE","tipo":"subtotal","cadeiras":[2,null,null,null,null,null,null]},{"estado":"Guaporé","tipo":"estado","cadeiras":[1,null,null,null,null,null,null]},{"estado":"Amapá","tipo":"estado","cadeiras":[1,null,null,null,null,null,null]},{"estado":"Rio Branco","tipo":"estado","cadeiras":[1,null,null,null,null,null,null]},{"estado":"TERRITORIOS","tipo":"subtotal","cadeiras":[3,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[7,1,3,3,2,2,1]}],"nota":"Em 1947 foram realizadas eleições complementares para a Câmara dos Deputados em um número restrito de estados. Os dados apresentam apenas os estados onde houve eleição."},"1950":{"partidos":["PSD","UDN","PTB","PSP","PR","PST","PL","PTN","PRP*","PDC","PSB","PRT"],"dados":[{"estado":"Rondônia*","tipo":"estado","cadeiras":[null,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Acre","tipo":"estado","cadeiras":[1,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[3,2,1,null,null,null,null,null,null,1,null,null]},{"estado":"Roraima*","tipo":"estado","cadeiras":[null,null,null,1,null,null,null,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[5,2,null,2,null,null,null,null,null,null,null,null]},{"estado":"Amapá*","tipo":"estado","cadeiras":[1,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[10,4,3,3,null,null,null,null,null,1,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[null,1,1,2,null,5,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[3,4,null,null,null,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[8,8,null,1,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[3,3,null,null,1,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[4,4,null,null,null,null,2,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[9,6,1,null,null,null,2,null,null,1,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[2,3,null,null,null,4,null,null,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[2,2,1,null,1,null,null,null,null,null,1,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[11,7,4,null,3,null,null,null,null,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[42,38,7,3,5,9,4,null,null,1,1,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[17,12,5,null,4,null,null,null,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[4,1,null,1,null,null,null,null,1,null,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[3,4,8,1,null,null,null,null,null,null,null,1]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[7,4,5,1,null,null,null,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[7,6,9,13,null,null,null,5,null,null,null,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[38,27,27,16,4,null,null,5,1,null,null,1]},{"estado":"Paraná","tipo":"estado","cadeiras":[3,2,3,null,1,null,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[4,4,1,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[8,1,10,null,null,null,2,null,1,null,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[15,7,14,null,1,null,2,null,1,null,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[3,3,1,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[4,2,null,1,null,null,null,null,null,null,null,null]},{"estado":"C. OESTE","tipo":"subtotal","cadeiras":[7,5,1,1,null,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[112,81,52,23,10,9,6,5,2,2,1,1]}]},"1954":{"partidos":["PSD","UDN","PTB","PSP","PR","PL","PTN","PRP","PSB","PDC","PRT"],"dados":[{"estado":"Rondônia","tipo":"estado","cadeiras":[1,null,null,null,null,null,null,null,null,null,null]},{"estado":"Acre","tipo":"estado","cadeiras":[1,null,1,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[3,null,4,null,null,null,null,null,null,null,null]},{"estado":"Roraima","tipo":"estado","cadeiras":[null,null,null,null,null,null,1,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[6,null,null,3,null,null,null,null,null,null,null]},{"estado":"Amapá","tipo":"estado","cadeiras":[1,null,null,null,null,null,null,null,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[12,null,5,3,null,null,1,null,null,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[8,null,null,2,null,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[3,2,1,1,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[5,7,1,3,1,null,null,null,1,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[3,2,null,2,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[3,5,null,null,null,3,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[12,4,3,1,null,1,null,null,null,1,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[1,5,2,null,null,null,null,null,1,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[2,3,1,null,1,null,null,null,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[8,6,4,null,6,3,null,null,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[45,34,12,9,8,7,null,null,2,1,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[18,10,5,1,5,null,null,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[4,null,2,null,null,null,null,1,null,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[2,5,6,2,1,null,null,null,null,null,1]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[6,6,5,null,null,null,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[11,4,8,11,2,null,5,null,2,1,null]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[41,25,26,14,8,null,5,1,2,1,1]},{"estado":"Paraná","tipo":"estado","cadeiras":[4,3,4,1,2,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[5,5,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[7,1,11,null,null,3,null,2,null,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[16,9,15,1,2,3,null,2,null,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[2,4,1,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[4,2,null,2,null,null,null,null,null,null,null]},{"estado":"CENTRO-OESTE","tipo":"subtotal","cadeiras":[6,6,1,2,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[120,74,59,29,18,10,6,3,4,2,1]}]},"1958":{"partidos":["PSD","UDN","PTB","PSP","PR","PSB","PTN","PDC","PL","PRP*","PST","PRT"],"dados":[{"estado":"Rondônia","tipo":"estado","cadeiras":[null,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Acre","tipo":"estado","cadeiras":[1,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[1,1,3,1,null,null,null,null,null,null,1,null]},{"estado":"Roraima","tipo":"estado","cadeiras":[1,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[4,3,null,2,null,null,null,null,null,null,null,null]},{"estado":"Amapá","tipo":"estado","cadeiras":[1,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[8,4,5,3,null,null,null,null,null,null,1,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[6,1,null,3,null,null,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[2,2,2,1,null,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[6,6,2,2,1,null,null,null,null,null,null,1]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[4,3,null,null,null,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[5,4,null,2,null,null,null,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[11,3,5,null,null,1,null,1,1,null,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[2,2,2,2,null,1,null,null,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[2,4,null,null,1,null,null,null,null,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[10,9,2,null,5,null,null,1,null,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[48,34,13,10,7,2,null,2,1,null,null,1]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[18,8,5,null,8,null,null,null,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[3,1,2,null,null,null,null,null,null,1,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[1,6,5,4,null,1,null,null,null,null,null,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[6,4,5,1,null,1,null,null,null,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[11,4,5,6,1,5,6,4,null,null,1,1]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[39,23,22,11,9,7,6,4,null,1,1,1]},{"estado":"Paraná","tipo":"estado","cadeiras":[4,1,6,null,1,null,null,1,null,1,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[5,4,1,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[7,null,14,null,null,null,null,null,2,1,null,null]},{"estado":"SUL","tipo":"subtotal","cadeiras":[16,5,21,null,1,null,null,1,2,2,null,null]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[3,3,1,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[5,1,1,1,null,null,null,null,null,null,null,null]},{"estado":"C. OESTE","tipo":"subtotal","cadeiras":[8,4,2,1,null,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[119,70,63,25,17,9,6,7,3,3,2,2]}]},"1962":{"partidos":["PSD","PTB","UDN","PSP","PDC","PTN","PST","PR","PL","PSB","PRP","PRT","MTR"],"dados":[{"estado":"Rondônia","tipo":"estado","cadeiras":[null,null,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"Acre","tipo":"estado","cadeiras":[4,3,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Amazonas","tipo":"estado","cadeiras":[2,3,null,null,null,null,null,null,2,null,null,null,null]},{"estado":"Roraima","tipo":"estado","cadeiras":[null,1,null,null,null,null,null,null,null,null,null,null,null]},{"estado":"Pará","tipo":"estado","cadeiras":[4,2,2,2,null,null,null,null,null,null,null,null,null]},{"estado":"Amapá","tipo":"estado","cadeiras":[null,null,null,1,null,null,null,null,null,null,null,null,null]},{"estado":"NORTE","tipo":"subtotal","cadeiras":[10,9,2,4,null,null,null,null,2,null,null,null,null]},{"estado":"Maranhão","tipo":"estado","cadeiras":[11,null,2,3,null,null,null,null,null,null,null,null,null]},{"estado":"Piauí","tipo":"estado","cadeiras":[3,3,2,null,null,null,null,null,null,null,null,null,null]},{"estado":"Ceará","tipo":"estado","cadeiras":[7,5,7,null,null,1,1,null,null,null,null,null,null]},{"estado":"Rio Grande do Norte","tipo":"estado","cadeiras":[3,null,2,null,2,null,null,null,null,null,null,null,null]},{"estado":"Paraíba","tipo":"estado","cadeiras":[5,2,6,null,null,null,null,null,null,null,null,null,null]},{"estado":"Pernambuco","tipo":"estado","cadeiras":[5,9,7,null,1,null,1,null,null,1,null,null,null]},{"estado":"Alagoas","tipo":"estado","cadeiras":[1,2,5,1,null,null,null,null,null,null,null,null,null]},{"estado":"Sergipe","tipo":"estado","cadeiras":[2,1,3,null,null,null,null,1,null,null,null,null,null]},{"estado":"Bahia","tipo":"estado","cadeiras":[10,9,9,null,null,1,null,1,null,1,null,null,null]},{"estado":"NORDESTE","tipo":"subtotal","cadeiras":[47,31,43,4,3,2,2,2,null,2,null,null,null]},{"estado":"Minas Gerais","tipo":"estado","cadeiras":[21,6,16,1,null,null,null,4,null,null,null,null,null]},{"estado":"Espírito Santo","tipo":"estado","cadeiras":[2,2,1,null,null,2,null,null,null,null,1,null,null]},{"estado":"Guanabara","tipo":"estado","cadeiras":[2,10,6,null,1,null,1,null,null,1,null,null,null]},{"estado":"Rio de Janeiro","tipo":"estado","cadeiras":[5,8,3,2,null,null,2,null,null,1,null,null,null]},{"estado":"São Paulo","tipo":"estado","cadeiras":[8,9,7,9,9,7,2,2,null,null,1,3,2]},{"estado":"SUDESTE","tipo":"subtotal","cadeiras":[38,35,33,12,10,9,5,6,null,2,2,3,2]},{"estado":"Paraná","tipo":"estado","cadeiras":[6,10,5,null,4,null,null,null,null,null,null,null,null]},{"estado":"Santa Catarina","tipo":"estado","cadeiras":[6,2,6,null,null,null,null,null,null,null,null,null,null]},{"estado":"Rio Grande do Sul","tipo":"estado","cadeiras":[7,14,1,null,2,null,null,null,3,null,1,null,1]},{"estado":"SUL","tipo":"subtotal","cadeiras":[19,26,12,null,6,null,null,null,3,null,1,null,1]},{"estado":"Mato Grosso","tipo":"estado","cadeiras":[3,1,4,null,null,null,null,null,null,null,null,null,null]},{"estado":"Goiás","tipo":"estado","cadeiras":[7,2,2,2,null,null,null,null,null,null,null,null,null]},{"estado":"C. OESTE","tipo":"subtotal","cadeiras":[10,3,6,2,null,null,null,null,null,null,null,null,null]},{"estado":"BRASIL","tipo":"total","cadeiras":[124,104,96,22,19,11,7,8,5,4,3,3,3]}]}};
+
+const PCOLORS={
+  PSD:'#1a3a5c',UDN:'#c0392b',PTB:'#27ae60',PCB:'#7f0000',
+  PSP:'#8e44ad',PR:'#e67e22',PDC:'#16a085',PSB:'#2980b9',
+  PL:'#795548',PRP:'#607d8b','PRP*':'#607d8b',PTN:'#f39c12',PST:'#95a5a6',
+  PRT:'#d35400',PPS:'#1abc9c','PRProg.':'#9b59b6',MTR:'#cddc39'
+};
+function pcolor(p){
+  const base=p.replace('*','').split('/')[0].trim();
+  return PCOLORS[p]||PCOLORS[base]||('#'+Math.abs(p.split('').reduce((a,c)=>a*31+c.charCodeAt(0),0)).toString(16).slice(-6).padStart(6,'0'));
+}
+
+let viewMode='sem';
+function setView(v){
+  viewMode=v;
+  document.getElementById('btn-sem').className=v==='sem'?'on':'';
+  document.getElementById('btn-com').className=v==='com'?'on':'';
+  render();
+}
+
+function render(){
+  const ano=document.getElementById('ano').value;
+  const d=D[ano];
+  const ps=d.partidos;
+
+  const av=document.getElementById('aviso');
+  if(d.nota){av.textContent=d.nota;av.classList.remove('hidden');}
+  else{av.classList.add('hidden');}
+
+  const tot=d.dados.find(r=>r.tipo==='total');
+  const tv=tot?tot.cadeiras.reduce((a,b)=>a+(b||0),0):0;
+
+  // Sumário
+  const nacional=[];
+  if(tot){
+    ps.forEach((p,i)=>{
+      const v=tot.cadeiras[i]||0;
+      if(v>0) nacional.push({p,v,pct:tv>0?v/tv*100:0});
+    });
+    nacional.sort((a,b)=>b.v-a.v);
+  }
+  document.getElementById('sumario').innerHTML=nacional.map(x=>
+    `<div class="scard">
+      <div class="dot" style="background:${pcolor(x.p)}"></div>
+      <div>
+        <div class="snm">${x.p}</div>
+        <div class="scad">${x.v}</div>
+        <div class="spct">${x.pct.toFixed(1)}%</div>
+      </div>
+    </div>`
+  ).join('')+(tv>0?`<div class="scard"><div><div class="snm" style="color:#555">Total</div><div class="scad">${tv}</div></div></div>`:'');
+
+  // Cabeçalho
+  document.getElementById('th').innerHTML=
+    `<tr><th>Estado</th>${ps.map(p=>`<th style="border-bottom:2px solid ${pcolor(p)}">${p}</th>`).join('')}<th>Total</th></tr>`;
+
+  // Linhas
+  const rows=viewMode==='com'?d.dados:d.dados.filter(r=>r.tipo!=='subtotal');
+  document.getElementById('tb').innerHTML=rows.map(r=>{
+    const cls=r.tipo==='subtotal'?'sub':r.tipo==='total'?'tot':'';
+    const rt=r.cadeiras.reduce((a,b)=>a+(b||0),0);
+    const cells=ps.map((p,i)=>{
+      const v=r.cadeiras[i];
+      if(v==null||v===0) return`<td class="zero">–</td>`;
+      const pct=rt>0?v/rt*100:null;
+      return`<td><div class="cv"><span class="abs">${v}</span>${pct!=null?`<span class="pct">${pct.toFixed(1)}%</span>`:''}</div></td>`;
+    }).join('');
+    return`<tr class="${cls}"><td>${r.estado}</td>${cells}<td><div class="cv"><span class="abs"><b>${rt||'–'}</b></span></div></td></tr>`;
+  }).join('');
+
+  document.getElementById('nota-fonte').classList.remove('hidden');
+}
+
+render();
+</script>
+</body>
+</html>
