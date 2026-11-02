@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Dados Eleitorais do Brasil – Período Democrático</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#1a3a5c;--azul2:#2b5f8e;--cinza:#f4f6f9;--borda:#d0d8e4;--texto:#1a1a2e}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--cinza);color:var(--texto)}
+header{background:var(--azul);color:white;padding:1.8rem 2rem}
+header h1{font-size:1.4rem;font-weight:700;line-height:1.35}
+header p{font-size:.83rem;opacity:.72;margin-top:.4rem}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.3rem}
+.intro{background:white;border:1px solid var(--borda);border-radius:8px;padding:1.6rem 2rem;margin-bottom:2rem;line-height:1.75;font-size:.95rem}
+.intro p{margin-bottom:.9rem}
+.intro p:last-child{margin-bottom:0}
+.intro .ref{font-style:italic;font-size:.88rem;color:#555}
+h2{font-size:1rem;font-weight:700;color:var(--azul);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem}
+.card-link{text-decoration:none;color:inherit}
+.card-link:hover .card{border-color:var(--azul2);box-shadow:0 2px 10px rgba(43,95,142,.15)}
+.card{background:white;border:1px solid var(--borda);border-radius:8px;padding:1.2rem 1.4rem;transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.card .cargo{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#999;margin-bottom:.35rem}
+.card .titulo{font-size:1.05rem;font-weight:700;color:var(--azul);margin-bottom:.3rem}
+.card .periodo{font-size:.8rem;color:#888}
+.card .seta{float:right;font-size:1.1rem;color:var(--azul2);margin-top:.1rem}
+.em-breve{opacity:.5;cursor:default}
+.em-breve .badge{display:inline-block;background:#e8f0fb;color:#2b5f8e;font-size:.68rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;margin-top:.4rem;letter-spacing:.03em}
+footer{text-align:center;padding:1.4rem;color:#bbb;font-size:.75rem;border-top:1px solid var(--borda);margin-top:1rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Banco de Dados Eleitorais do Brasil &mdash; Período Democrático</h1>
+  <p>Eleições federais e estaduais &middot; a partir de 1982 &middot; FGV</p>
+</header>
+<div class="container">
+  <div class="intro">
+    <p>Este banco reúne resultados das eleições federais e estaduais realizadas no Brasil a partir de 1982, organizados por estado e região, com base nos dados publicados pelo Tribunal Superior Eleitoral.</p>
+    <p>Os dados são apresentados em formato eletrônico interativo, com tabelas, gráficos e arquivos para download. As imprecisões e divergências identificadas nas fontes aparecem em notas.</p>
+    <p>Apesar do esforço de verificação, o banco pode conter erros. Pesquisadores que identificarem alguma inconsistência nos dados podem enviar uma mensagem para o organizador, Jairo Nicolau (<a href="mailto:jairo.nicolau@fgv.br" style="color:var(--azul2)">jairo.nicolau@fgv.br</a>), indicando o cargo, o ano, o estado e, se possível, a fonte. Comentários e sugestões também são bem-vindos.</p>
+  </div>
+
+  <h2>Cargos disponíveis</h2>
+  <div class="cards">
+    <a class="card-link" href="presidente_1989_2026.html">
+      <div class="card">
+        <span class="seta">→</span>
+        <div class="cargo">Executivo federal</div>
+        <div class="titulo">Presidente da República</div>
+        <div class="periodo">1989 · 1994 · 1998 · 2002 · 2006 · 2010 · 2014 · 2018 · 2022 · 2026</div>
+      </div>
+    </a>
+    <div class="card em-breve">
+      <div class="cargo">Executivo estadual</div>
+      <div class="titulo">Governadores</div>
+      <div class="periodo">1982–2014</div>
+      <span class="badge">Em breve</span>
+    </div>
+    <div class="card em-breve">
+      <div class="cargo">Legislativo federal</div>
+      <div class="titulo">Senado Federal</div>
+      <div class="periodo">1982–2014</div>
+      <span class="badge">Em breve</span>
+    </div>
+    <a class="card-link" href="camara_1982_2026.html">
+<div class="card">
+<span class="seta">→</span>
+<div class="cargo">Legislativo federal</div>
+<div class="titulo">Câmara dos Deputados</div>
+<div class="periodo">1982 · 1986 · 1990 · 1994 · 1998 · 2002 · 2006 · 2010 · 2014 · 2018 · 2022 · 2026</div>
+</div>
+</a>
+    <div class="card em-breve">
+      <div class="cargo">Legislativo estadual</div>
+      <div class="titulo">Assembleias Legislativas</div>
+      <div class="periodo">1982–2014</div>
+      <span class="badge">Em breve</span>
+    </div>
+  </div>
+</div>
+<footer>Banco de Dados Eleitorais do Brasil &ndash; Período Democrático &middot; FGV</footer>
+</body>
+</html>
